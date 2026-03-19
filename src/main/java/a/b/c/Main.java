@@ -42,7 +42,6 @@ public class Main
 
 	CommandHandler commandHandler = new CommandHandler();
 	
-
 	modules.add(new Sprint());
 
 	for(int i=0; i<modules.size();i++) {
@@ -55,6 +54,7 @@ public class Main
     @SubscribeEvent
     public void onClientTickEvent(ClientTickEvent event)
     {
+	if(mc.player == null) { return; }
 	for(int i=0; i<modules.size();i++) {
 	    if(moduleConfigs.get(i).enabled) {
 		modules.get(i).onTick(event, moduleConfigs.get(i));
