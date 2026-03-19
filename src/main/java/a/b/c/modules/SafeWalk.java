@@ -24,7 +24,7 @@ extends Module
     public void init(ModuleConfig.ModuleCfg cfg)
     {
 	cfg.name = "safewalk";
-	MIN_FALL = ModuleConfig.addValue("min-fall", 6, cfg);
+	MIN_FALL = ModuleConfig.addValue(cfg, "min-fall", (float)6.0);
     }
 
     @Override
@@ -40,15 +40,15 @@ extends Module
     @Override
     public void onTick(ClientTickEvent event, ModuleConfig.ModuleCfg cfg)
     {
-	BlockPos playerPos = player.getPosition();
+	BlockPos playerPos = Main.mc.player.getPosition();
 	playerPos = playerPos.down(1);
-	if(mc.world.getBlockState(playerPos).getBlock().equals(Blocks.AIR)) {
+	if(Main.mc.world.getBlockState(playerPos).getBlock().equals(Blocks.AIR)) {
 	    sneaking = true;
-	    KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
+	    KeyBinding.setKeyBindState(Main.mc.gameSettings.keyBindSneak.getKeyCode(), true);
 	} else {
 	    if(sneaking) {
 		sneaking = false;
-		KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), false);
+		KeyBinding.setKeyBindState(Main.mc.gameSettings.keyBindSneak.getKeyCode(), false);
 	    }
 	}
     }
