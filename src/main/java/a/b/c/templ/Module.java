@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
 public class Module
 {
-    public String help() { return "no help"; }
+    public String help(ModuleConfig.ModuleCfg cfg) { return "no help"; }
     
     public void init(ModuleConfig.ModuleCfg cfg) {}
     
