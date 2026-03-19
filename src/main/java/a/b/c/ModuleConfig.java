@@ -68,7 +68,7 @@ public class ModuleConfig
     }
 
 
-    public static void addValue(ModuleCfg cfg, String name, boolean value)
+    public static int addValue(ModuleCfg cfg, String name, boolean value)
     {
 	int index = cfg.booleanValues.size();
 	ModuleConfigValue valInfo = new ModuleConfigValue();
@@ -76,10 +76,11 @@ public class ModuleConfig
 	valInfo.index = index;
 	cfg.booleanValues.add(value);
 	cfg.nameMap.put(name, valInfo);
+	return index;
     }
 
     
-    public static void addValue(ModuleCfg cfg, String name, float value)
+    public static int addValue(ModuleCfg cfg, String name, float value)
     {
 	int index = cfg.numberValues.size();
 	ModuleConfigValue valInfo = new ModuleConfigValue();
@@ -87,10 +88,10 @@ public class ModuleConfig
 	valInfo.index = index;
 	cfg.numberValues.add(value);
 	cfg.nameMap.put(name, valInfo);
-
+	return index;
     }
 
-    public static void addValue(ModuleCfg cfg, String name, Range value)
+    public static int addValue(ModuleCfg cfg, String name, Range value)
     {
 	int index = cfg.rangeValues.size();
 	ModuleConfigValue valInfo = new ModuleConfigValue();
@@ -98,10 +99,10 @@ public class ModuleConfig
 	valInfo.index = index;
 	cfg.rangeValues.add(value);
 	cfg.nameMap.put(name, valInfo);
-
+	return index;
     }
     
-    public static void addValue(ModuleCfg cfg, String name, String value)
+    public static int addValue(ModuleCfg cfg, String name, String value)
     {
 	int index = cfg.stringValues.size();
 	ModuleConfigValue valInfo = new ModuleConfigValue();
@@ -109,7 +110,7 @@ public class ModuleConfig
 	valInfo.index = index;
 	cfg.stringValues.add(value);
 	cfg.nameMap.put(name, valInfo);
-
+	return index;
     }
 
     public static boolean setValue(String name, String value, ModuleCfg cfg)
