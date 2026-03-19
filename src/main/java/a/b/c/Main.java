@@ -1,5 +1,7 @@
 package a.b.c;
 
+import java.util.HashMap;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -16,15 +18,14 @@ public class Main
     public static final String modName = "c";
     public static final String modVersion = "0.1";
 
+    public static Minecraft mc;
+
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-	Minecraft mc;
-
-	MinecraftForge.EVENT_BUS.register(this);
 	mc = Minecraft.getMinecraft();
-	
-	
+	MinecraftForge.EVENT_BUS.register(this);
+
     }
     
     
