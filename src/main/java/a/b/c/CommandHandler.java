@@ -50,21 +50,21 @@ public class CommandHandler
 	for(int i=0; i<Main.modules.size(); i++) {
 	    ModuleConfig.ModuleCfg modCfg = Main.moduleConfigs.get(i);
 	    if(cmd[0].equals(modCfg.name)) {
-		if(cmd.length == 1) {
-		    ChatUtil.sendClientMessage(modCfg.help);
+		if(cmd.length <= 1) {
+		    ChatUtil.sendClientMessage(Main.modules.get(i).help(modCfg));
 		    return true;
 		}
-		if(cmd.length <= 2 && cmd[1].equals("enable") || cmd[1].equals("t") || cmd[1].equals("1")) {
+		if(cmd[1].equals("enable") || cmd[1].equals("t") || cmd[1].equals("1")) {
 		    ChatUtil.sendClientMessage("enabled " + modCfg.name);
 		    modCfg.enabled = true;
 		    return true;
 		}
-		if(cmd.length <= 2 && cmd[1].equals("disable") || cmd[1].equals("f") || cmd[1].equals("0")) {
+		if(cmd[1].equals("disable") || cmd[1].equals("f") || cmd[1].equals("0")) {
 		    ChatUtil.sendClientMessage("disabled " + modCfg.name);
 		    modCfg.enabled = false;
 		    return true;
 		}
-		if(cmd.length <= 2 && cmd[1].equals("toggle")) {
+		if(cmd[1].equals("toggle")) {
 		    if(modCfg.enabled) {
 			ChatUtil.sendClientMessage("disabled " + modCfg.name);
 			modCfg.enabled = false;
@@ -74,6 +74,20 @@ public class CommandHandler
 		    }
 		    return true;
 		}
+		if(cmd[1].equals("set")) {
+		    if(cmd.length < 4) {
+			ChatUtil.sendClientMessage("usage: :{module-name} set {option} {value}");
+			return true;
+		    }
+		    if (ModuleConfig.setValue(cmd[2], cmd[3], modCfg)) {
+			ChatUtil.sendClientMessage(cmd[2] + "=" + cmd[3]);
+			return true;
+		    } else {
+			ChatUtil.sendClientMessage("option not found or not applicable to provided value");
+			return true;
+		    }
+		}
+		
 		return false;
 	    }
 	}
@@ -107,11 +121,7 @@ public class CommandHandler
 	    String response = "module list:\n";
 	    for(int i=0; i<Main.modules.size(); i++) {
 		ModuleConfig.ModuleCfg cfg = Main.moduleConfigs.get(i);
-		// ModuleConfig.ModuleConfigValue[] cfgValues = cfg.nameMap.values().toArray();
-		response = response.concat(" " + cfg.name + ":");
-		// for(int j=0; j<cfgValues.length(); j++) {
-		//     response.concat("   " + cfgValues[i].name + " - " + cfgValues[i].type.toString());
-		// }
+		response = response.concat(" >" + cfg.name);
 	    }
 	    ChatUtil.sendClientMessage(response);
 	} else if(!processModuleCommand(cmd)) {

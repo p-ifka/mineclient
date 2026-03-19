@@ -1,5 +1,7 @@
 package a.b.c;
 
+import a.b.c.util.ChatUtil;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -130,6 +132,7 @@ public class ModuleConfig
 	    } else if(ch == 'f' || ch == '0' || ch == 'n') {
 		cfg.booleanValues.set(val.index, false);
 	    } else {
+		ChatUtil.sendClientMessage("error: expected boolean [t][1][y]/[f][0][n], found " + value);
 		return false;
 	    }
 	    break;
@@ -138,6 +141,7 @@ public class ModuleConfig
 	    {
 		cfg.numberValues.set(val.index, Float.parseFloat(value));
 	    } catch(Exception e) {
+		ChatUtil.sendClientMessage("error: expected number, found  " + value);
 		return false;
 	    }
 	    break;
@@ -149,6 +153,7 @@ public class ModuleConfig
 	    if(rangeValue != null) {
 		cfg.rangeValues.set(val.index, rangeValue);
 	    } else {
+		ChatUtil.sendClientMessage("error: expected range, found  " + value);
 		return false;
 	    }
 	}
