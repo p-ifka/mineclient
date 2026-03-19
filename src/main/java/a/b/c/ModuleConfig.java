@@ -1,6 +1,7 @@
 package a.b.c;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class ModuleConfig
 {
@@ -23,11 +24,26 @@ public class ModuleConfig
 
     public static class ModuleCfg
     {
+	public String name;
+	public boolean enabled;
+	
 	public HashMap<String, ModuleConfigValue> nameMap;
-	public float[] numberValues;
-	public Range[] rangeValues;
-	public String[] stringValues;
-	public boolean[] booleanValues;
+	
+	public ArrayList<Float> numberValues;
+	public ArrayList<Range> rangeValues;
+	public ArrayList<String> stringValues;
+	public ArrayList<Boolean> booleanValues;
+
+	public ModuleCfg()
+	{
+	    name = "";
+	    enabled = false;
+	    nameMap = new HashMap<String, ModuleConfigValue>();
+	    numberValues = new ArrayList<Float>();
+	    rangeValues = new ArrayList<Range>();
+	    stringValues = new ArrayList<String>();
+	    booleanValues = new ArrayList<Boolean>();
+	}
     }
 
     public static Range stringToRange(String str)
@@ -51,6 +67,51 @@ public class ModuleConfig
 	}
     }
 
+
+    public static void addValue(ModuleCfg cfg, String name, boolean value)
+    {
+	int index = cfg.booleanValues.size();
+	ModuleConfigValue valInfo = new ModuleConfigValue();
+	valInfo.type = ModuleConfigType.BOOL;
+	valInfo.index = index;
+	cfg.booleanValues.add(value);
+	cfg.nameMap.put(name, valInfo);
+    }
+
+    
+    public static void addValue(ModuleCfg cfg, String name, float value)
+    {
+	int index = cfg.numberValues.size();
+	ModuleConfigValue valInfo = new ModuleConfigValue();
+	valInfo.type = ModuleConfigType.NUMBER;
+	valInfo.index = index;
+	cfg.numberValues.add(value);
+	cfg.nameMap.put(name, valInfo);
+
+    }
+
+    public static void addValue(ModuleCfg cfg, String name, Range value)
+    {
+	int index = cfg.rangeValues.size();
+	ModuleConfigValue valInfo = new ModuleConfigValue();
+	valInfo.type = ModuleConfigType.RANGE;
+	valInfo.index = index;
+	cfg.rangeValues.add(value);
+	cfg.nameMap.put(name, valInfo);
+
+    }
+    
+    public static void addValue(ModuleCfg cfg, String name, String value)
+    {
+	int index = cfg.stringValues.size();
+	ModuleConfigValue valInfo = new ModuleConfigValue();
+	valInfo.type = ModuleConfigType.STRING;
+	valInfo.index = index;
+	cfg.stringValues.add(value);
+	cfg.nameMap.put(name, valInfo);
+
+    }
+
     public static boolean setValue(String name, String value, ModuleCfg cfg)
     {
 	if(value == null || value.length() < 1) {
@@ -64,9 +125,9 @@ public class ModuleConfig
 	case BOOL:
 	    char ch = value.toLowerCase().charAt(0);
 	    if(ch == 't' || ch == '1' || ch == 'y') {
-		cfg.booleanValues[val.index] = true;
+		cfg.booleanValues.set(val.index, true);
 	    } else if(ch == 'f' || ch == '0' || ch == 'n') {
-		cfg.booleanValues[val.index] = false;
+		cfg.booleanValues.set(val.index, false);
 	    } else {
 		return false;
 	    }
@@ -74,18 +135,18 @@ public class ModuleConfig
 	case NUMBER:
 	    try
 	    {
-		cfg.numberValues[val.index] = Float.parseFloat(value);
+		cfg.numberValues.set(val.index, Float.parseFloat(value));
 	    } catch(Exception e) {
 		return false;
 	    }
 	    break;
 	case STRING:
-	    cfg.stringValues[val.index] = value;
+	    cfg.stringValues.set(val.index, value);
 	    break;
 	case RANGE:
 	    Range rangeValue = stringToRange(value);
 	    if(rangeValue != null) {
-		cfg.rangeValues[val.index] = rangeValue;
+		cfg.rangeValues.set(val.index, rangeValue);
 	    } else {
 		return false;
 	    }
